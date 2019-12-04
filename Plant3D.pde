@@ -27,7 +27,7 @@ class Plant3D extends LSystem {
   }
 
   void render() {
-    translate(width/2, height-200);
+    translate(0,0,0);
     steps += 3;          
     if (steps > production.length()) {
       steps = production.length();
@@ -56,7 +56,7 @@ class Plant3D extends LSystem {
     }
   }
   void renderAtFinal(){
-    translate(width/2, height-200);
+    //translate(width/2, height-200);
     
     for (int i = 0; i < production.length(); i++) {
       char step = production.charAt(i);
@@ -72,9 +72,11 @@ class Plant3D extends LSystem {
       } 
       else if (step == '+') {
         rotateZ(theta);
+        rotateX(1.5 * theta);
       } 
       else if (step == '-') {
         rotateZ(-theta);
+        rotateX(-1.5 * theta);
       } 
       else if (step == '[') {
         transform.push(getMatrix());

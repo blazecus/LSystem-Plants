@@ -1,5 +1,8 @@
 import java.util.Map;
 import java.util.Stack;
+import queasycam.*;
+
+QueasyCam cam;
 
 PentigreeLSystem ps;
 Koch test;
@@ -8,6 +11,8 @@ Dragon drag;
 Plant pl;
 StochasticPlant spl;
 Plant3D test3d;
+DragonTree testdragon;
+Cherry cher;
 //Stack rendertransform = new Stack();
 //boolean lock = false;
 //float[] lockpos = {0.0,0.0};
@@ -26,13 +31,21 @@ void setup() {
   //serp.simulate(5);
   //drag = new Dragon();
   //drag.simulate(12);
+  cam = new QueasyCam(this);
+  cam.speed = 5;
+  cam.sensitivity = .5;
+  cam.position = new PVector(-200.0,-300,0.0);
   pl = new Plant();
   pl.simulate(5);
+  cher = new Cherry();
+  cher.simulate(6);
   
   test3d = new Plant3D();
   test3d.simulate(4);
   
-
+  testdragon = new DragonTree();
+  testdragon.simulate(4);
+  //print(testdragon.production);
   //pl.renderAtFinal();
   //spl = new StochasticPlant();
   //spl.simulate(5);
@@ -44,11 +57,11 @@ void setup() {
 }
 
 void draw() {
-  //background(0);
-  translate(width/2, height/2, 0);
-  rotateX(map(mouseY, 0, height, -PI, PI));
-  rotateY(map(mouseX, 0, width, -PI, PI));
-  test3d.renderAtFinal();
+  background(0);
+  fill(255);
+  //test3d.renderAtFinal();
+  //testdragon.renderAtFinal();
+  cher.renderAtFinal();
 
   //pl.renderAtFinal();
 
@@ -79,6 +92,6 @@ void keyPressed(){
   if(key == 'w'){
     float[] temp = {currentcampos[0], currentcampos[1] + 40,currentcampos[2]};
     currentcampos = temp;
-    print(currentcampos);
+    //print(currentcampos);
   }
 } 
