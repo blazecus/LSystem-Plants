@@ -13,6 +13,7 @@ StochasticPlant spl;
 Plant3D test3d;
 DragonTree testdragon;
 Cherry cher;
+SDragon s;
 //Stack rendertransform = new Stack();
 //boolean lock = false;
 //float[] lockpos = {0.0,0.0};
@@ -38,13 +39,16 @@ void setup() {
   pl = new Plant();
   pl.simulate(5);
   cher = new Cherry();
-  cher.simulate(6);
+  cher.simulate(4);
   
   test3d = new Plant3D();
   test3d.simulate(4);
   
   testdragon = new DragonTree();
   testdragon.simulate(4);
+  
+  s = new SDragon();
+  s.simulate(4);
   //print(testdragon.production);
   //pl.renderAtFinal();
   //spl = new StochasticPlant();
@@ -61,8 +65,8 @@ void draw() {
   fill(255);
   //test3d.renderAtFinal();
   //testdragon.renderAtFinal();
-  cher.renderAtFinal();
-
+  //cher.renderAtFinal();
+  s.renderAtFinal();
   //pl.renderAtFinal();
 
   //ps.render();

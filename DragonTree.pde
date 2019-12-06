@@ -4,13 +4,22 @@ class DragonTree extends LSystem {
   int steps = 0;
   float somestep = 0.1;
   float xoff = 0.01;
-  float wid = 40.0;
+  float wid = 2;
   float theta2;
+  
+  float drawLength = 40.0;
+  
   DragonTree() {
     axiom = "FX";
     rule = new HashMap<String, String>();
-    rule.put("X", "[1F6X][2F7X][3F8X][4F9X][5F10X]");
+    rule.put("X", "[1X][2X][3X][4X][5X]");
     rule.put("F", "FF");
+    
+    rule.put("1", "11");
+    rule.put("2", "22");
+    rule.put("3", "33");
+    rule.put("4", "44");
+    rule.put("5", "55");
     startLength = 10.0;
     theta = radians(72);  
     theta2 = radians(70);
@@ -19,7 +28,7 @@ class DragonTree extends LSystem {
   }
   void reset() {
     production = axiom;
-    drawLength = startLength;
+    drawLength = (float)startLength;
     generations = 0;
   }
   void renderAtFinal(){
@@ -54,19 +63,36 @@ class DragonTree extends LSystem {
         setMatrix((PMatrix)transform.pop());
       }
       else if (step != 'X'){
-        int tempplace = int(step);
+        int tempplace = Character.getNumericValue(step);
+
         if (tempplace <= 5){
-          rotateZ(theta2);
+          //pushMatrix();
+          //PMatrix temp = getMatrix();
+          //resetMatrix();
+          //rotateY(theta * tempplace);
+          //rotateZ(theta2);
+          //PMatrix rotate = getMatrix();
+          //rotate.invert();
+          //setMatrix(temp);
+          
+          
           rotateY(theta * tempplace);
+          rotateZ(theta2);
+          noFill();
+          stroke(255);
+          //line(0, 0, 0, -drawLength);
+
+          box(wid, -drawLength, wid);
+          translate(0, -drawLength, 0);
+          //print(rotate);
+          //print(getMatrix());
+          //PMatrix t = getMatrix().preApply(rotate);
+          //setMatrix(getMatrix().apply(rotate));
+
+          //popMatrix();
+          //translate(sin(theta * (tempplace -1)) * sin(theta2) * -drawLength, cos(theta2) * -drawLength, cos(theta * (tempplace -1)) * sin(theta2) * -drawLength);
         }
-        else{
-          PMatrix3D temp = new PMatrix3D();
-          temp.rotateX(radians(360) - theta2);
-          temp.rotateY(radians(360) - (theta * tempplace));
-          PMatrix set = getMatrix();
-          set.apply(temp);
-          setMatrix(set);
-        }
+
       }
     }
   }

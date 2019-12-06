@@ -1,4 +1,4 @@
-class Cherry extends LSystem {
+class SDragon extends LSystem {
   Stack transform = new Stack();
   
   int steps = 0;
@@ -6,10 +6,10 @@ class Cherry extends LSystem {
   float xoff = 0.01;
   float wid = 40.0;
   float theta2;
-  Cherry() {
+  SDragon() {
     axiom = "FX";
     rule = new HashMap<String, String>();
-    rule.put("X", "[1F6X][2F7X][3F8X][4F9X][5F10X]");
+    rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
     rule.put("F", "FF");
     startLength = 10.0;
     theta = radians(72);  
@@ -55,13 +55,13 @@ class Cherry extends LSystem {
       }
       else if (step != 'X'){
         int tempplace = Character.getNumericValue(step);
-        if (tempplace <= 5){
+        if (tempplace <= 4){
           rotateY(theta * tempplace);
           rotateZ(theta2);
         }
         else{
-          rotateY(radians(360) - (theta * (tempplace - 5)));
-          rotateZ(radians(360) - theta2);
+          rotateZ(TWO_PI - theta2);
+          rotateY(TWO_PI - (theta * (tempplace - 5)));
         }
       }
     }
