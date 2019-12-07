@@ -14,6 +14,8 @@ Plant3D test3d;
 DragonTree testdragon;
 Cherry cher;
 SDragon s;
+SDragonRandom sr;
+
 //Stack rendertransform = new Stack();
 //boolean lock = false;
 //float[] lockpos = {0.0,0.0};
@@ -49,6 +51,9 @@ void setup() {
   
   s = new SDragon();
   s.simulate(4);
+  
+  sr = new SDragonRandom();
+  sr.simulate(5);
   //print(testdragon.production);
   //pl.renderAtFinal();
   //spl = new StochasticPlant();
@@ -66,7 +71,7 @@ void draw() {
   //test3d.renderAtFinal();
   //testdragon.renderAtFinal();
   //cher.renderAtFinal();
-  s.renderAtFinal();
+  sr.renderAtFinal();
   //pl.renderAtFinal();
 
   //ps.render();
@@ -99,3 +104,47 @@ void keyPressed(){
     //print(currentcampos);
   }
 } 
+
+
+void TexturedCube(PImage tex, float x, float y, float z) {
+  beginShape(QUADS);
+  texture(tex);  
+  textureMode(NORMAL);
+  // +Z "front" face
+  vertex(-x, -y,  z, 0, 0);
+  vertex( x, -y,  z, 1, 0);
+  vertex( x,  y,  z, 1, 1);
+  vertex(-x,  y,  z, 0, 1);
+
+  // -Z "back" face
+  vertex( x, -y, -z, 0, 0);
+  vertex(-x, -y, -z, 1, 0);
+  vertex(-x,  y, -z, 1, 1);
+  vertex( x,  y, -z, 0, 1);
+
+  // +Y "bottom" face
+  vertex(-x,  y,  z, 0, 0);
+  vertex( x,  y,  z, 1, 0);
+  vertex( x,  y, -z, 1, 1);
+  vertex(-x,  y, -z, 0, 1);
+
+  // -Y "top" face
+  vertex(-x, -y, -z, 0, 0);
+  vertex( x, -y, -z, 1, 0);
+  vertex( x, -y,  z, 1, 1);
+  vertex(-x, -y,  z, 0, 1);
+
+  // +X "right" face
+  vertex( x, -y,  z, 0, 0);
+  vertex( x, -y, -z, 1, 0);
+  vertex( x,  y, -z, 1, 1);
+  vertex( x,  y,  z, 0, 1);
+
+  // -X "left" face
+  vertex(-x, -y, -z, 0, 0);
+  vertex(-x, -y,  z, 1, 0);
+  vertex(-x,  y,  z, 1, 1);
+  vertex(-x,  y, -z, 0, 1);
+
+  endShape();
+}

@@ -11,7 +11,7 @@ class LSystem {
   float theta;
 
   int generations;
-
+  PImage tex = loadImage("wood.png");
   LSystem() {
 
     axiom = "F";

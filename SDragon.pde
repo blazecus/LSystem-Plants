@@ -6,14 +6,27 @@ class SDragon extends LSystem {
   float xoff = 0.01;
   float wid = 40.0;
   float theta2;
+  
+  float[] drawRange = {.5, 1.3};
+  float[] thetaRange = {.7, 1.3};
+  float[] theta2Range = {.7, 1.3};
+  
+  //float fChance = .7;
+  
+  HashMap<String, Float> chanceRule = new HashMap<String, Float>();
+  
+  PImage tex = loadImage("wood.png");
+
   SDragon() {
     axiom = "FX";
     rule = new HashMap<String, String>();
     rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
+    chanceRule.put("F", .7);
+    chanceRule.put("X", .9);
     rule.put("F", "FF");
     startLength = 10.0;
     theta = radians(72);  
-    theta2 = radians(70);
+    theta2 = radians(60);
     reset();
     //transform.push("hello");
   }
@@ -27,26 +40,14 @@ class SDragon extends LSystem {
       char step = production.charAt(i);
       if (step == 'F' || step == 'G') {
         noFill();
+        //noStroke();
         stroke(255);
-        //line(0, 0, 0, -drawLength);
         if(wid > 5){
           wid -= .8;
         }
-        box(wid, -drawLength, wid);
+        TexturedCube(tex, wid, -drawLength, wid);
         translate(0, -drawLength,0);
       } 
-      //else if (step == '1') {
-      //  rotateY(theta);
-      //  rotateZ(theta2);
-      //} 
-      //else if (step == '2') {
-      //  rotateY(theta * 2);
-      //  rotateZ(theta2);
-      //} 
-      //else if (step == '3'){
-      //  rotateY(theta * 3);
-      //  rotateZ(theta2);
-      //}
       else if (step == '[') {
         transform.push(getMatrix());
       } 
@@ -54,8 +55,8 @@ class SDragon extends LSystem {
         setMatrix((PMatrix)transform.pop());
       }
       else if (step != 'X'){
-        int tempplace = Character.getNumericValue(step);
-        if (tempplace <= 4){
+        int tempplace = Character.getNumericValue(step) + 1;
+        if (tempplace <= 5){
           rotateY(theta * tempplace);
           rotateZ(theta2);
         }
