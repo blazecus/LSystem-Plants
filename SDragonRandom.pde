@@ -13,6 +13,8 @@ class SDragonRandom extends LSystem {
   
   int widcount = 0;
   
+  float[] wids = {10, 8, 6, 4, 2, 1};
+  
   //float fChance = .7;
   
   HashMap<String, Float> chanceRule = new HashMap<String, Float>();
@@ -30,7 +32,7 @@ class SDragonRandom extends LSystem {
     axiom = "FX";
     rule = new HashMap<String, String>();
     rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
-    chanceRule.put("F", .85);
+    chanceRule.put("F", .6);
     chanceRule.put("X", .7);
     rule.put("F", "FF");
     startLength = 10.0;
@@ -47,10 +49,13 @@ class SDragonRandom extends LSystem {
   void renderAtFinal(){
     for (int i = 0; i < production.length(); i++) {
       char step = production.charAt(i);
-      if (step == 'F' || step == 'G') {
+      
+      
+      //moving forward
+      if (step == 'F') {
         noFill();
         //noStroke();
-        stroke(255);
+        //stroke(255);
         float newl;
         if(drawchance.containsKey(i)){
           newl = drawchance.get(i);
@@ -59,10 +64,14 @@ class SDragonRandom extends LSystem {
           newl = random(drawRange[0], drawRange[1]) * drawLength;
           drawchance.put(i, newl);
         }
-        wid = 16 - 3 * widcount;
-        TexturedCube(tex, wid/2, -newl, wid/2);
+        
+        //drawing and translating
+        TexturedCube(tex, wids[widcount], -newl, wids[widcount]);
         translate(0, -newl,0);
       } 
+      
+      
+      //saving spots
       else if (step == '[') {
         transform.push(getMatrix());
         widcount++;
@@ -71,9 +80,17 @@ class SDragonRandom extends LSystem {
         setMatrix((PMatrix)transform.pop());
         widcount--;
       }
-      else if (step != 'X'){
+      else if (step == 'X'){
+        drawManyLeaves(10);
+        
+        //continue;
+      }
+      //recursive step
+      else if(step != 'X'){
         int tempplace = Character.getNumericValue(step) + 1;
         float newt, newt2;
+        
+        //getting angles
         if(tchance.containsKey(i)){
           newt = tchance.get(i);
           newt2 = t2chance.get(i);
@@ -84,7 +101,8 @@ class SDragonRandom extends LSystem {
           tchance.put(i, newt);
           t2chance.put(i, newt2);
         }
-
+        
+        //rotation
         if (tempplace <= 5){
           rotateY(newt * tempplace);
           rotateZ(newt2);
@@ -112,7 +130,7 @@ class SDragonRandom extends LSystem {
       String t = prod_.substring(i, i+1);
       if(rule.containsKey(t)){
         if(chanceRule.containsKey(t)){
-          if(random(1) < chanceRule.get(t)){
+          if(random(1) < chanceRule.get(t) + i/25){
             newProduction += rule.get(t);
           }
           else{
