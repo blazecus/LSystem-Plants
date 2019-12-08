@@ -111,38 +111,38 @@ void TexturedCube(PImage tex, float x, float y, float z) {
   texture(tex);  
   textureMode(NORMAL);
   // +Z "front" face
-  vertex(-x, -y,  z, 0, 0);
-  vertex( x, -y,  z, 1, 0);
-  vertex( x,  y,  z, 1, 1);
-  vertex(-x,  y,  z, 0, 1);
+  vertex(-x, 0,  z, 0, 0);
+  vertex( x, 0,  z, 1, 0);
+  vertex( x, y,  z, 1, 1);
+  vertex(-x, y,  z, 0, 1);
 
   // -Z "back" face
-  vertex( x, -y, -z, 0, 0);
-  vertex(-x, -y, -z, 1, 0);
-  vertex(-x,  y, -z, 1, 1);
-  vertex( x,  y, -z, 0, 1);
+  vertex( x, 0, -z, 0, 0);
+  vertex(-x, 0, -z, 1, 0);
+  vertex(-x, y, -z, 1, 1);
+  vertex( x, y, -z, 0, 1);
 
-  // +Y "bottom" face
-  vertex(-x,  y,  z, 0, 0);
-  vertex( x,  y,  z, 1, 0);
-  vertex( x,  y, -z, 1, 1);
-  vertex(-x,  y, -z, 0, 1);
+  // +2 * y "bottom" face
+  vertex(-x, y,  z, 0, 0);
+  vertex( x, y,  z, 1, 0);
+  vertex( x, y, -z, 1, 1);
+  vertex(-x, y, -z, 0, 1);
 
   // -Y "top" face
-  vertex(-x, -y, -z, 0, 0);
-  vertex( x, -y, -z, 1, 0);
-  vertex( x, -y,  z, 1, 1);
-  vertex(-x, -y,  z, 0, 1);
+  vertex(-x, 0, -z, 0, 0);
+  vertex( x, 0, -z, 1, 0);
+  vertex( x, 0,  z, 1, 1);
+  vertex(-x, 0,  z, 0, 1);
 
   // +X "right" face
-  vertex( x, -y,  z, 0, 0);
-  vertex( x, -y, -z, 1, 0);
+  vertex( x, 0,  z, 0, 0);
+  vertex( x, 0, -z, 1, 0);
   vertex( x,  y, -z, 1, 1);
   vertex( x,  y,  z, 0, 1);
 
   // -X "left" face
-  vertex(-x, -y, -z, 0, 0);
-  vertex(-x, -y,  z, 1, 0);
+  vertex(-x, 0, -z, 0, 0);
+  vertex(-x, 0,  z, 1, 0);
   vertex(-x,  y,  z, 1, 1);
   vertex(-x,  y, -z, 0, 1);
 

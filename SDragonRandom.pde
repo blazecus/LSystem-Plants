@@ -7,9 +7,11 @@ class SDragonRandom extends LSystem {
   float wid = 40.0;
   float theta2;
   
-  float[] drawRange = {.5, 1.3};
-  float[] thetaRange = {.7, 1.3};
-  float[] theta2Range = {.7, 1.3};
+  float[] drawRange = {.9, 1.1};
+  float[] thetaRange = {.9, 1.1};
+  float[] theta2Range = {.9, 1.1};
+  
+  int widcount = 0;
   
   //float fChance = .7;
   
@@ -28,8 +30,8 @@ class SDragonRandom extends LSystem {
     axiom = "FX";
     rule = new HashMap<String, String>();
     rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
-    chanceRule.put("F", .9);
-    chanceRule.put("X", .95);
+    chanceRule.put("F", .85);
+    chanceRule.put("X", .7);
     rule.put("F", "FF");
     startLength = 10.0;
     theta = radians(72);  
@@ -49,9 +51,6 @@ class SDragonRandom extends LSystem {
         noFill();
         //noStroke();
         stroke(255);
-        if(wid > 5){
-          wid -= .8;
-        }
         float newl;
         if(drawchance.containsKey(i)){
           newl = drawchance.get(i);
@@ -60,14 +59,17 @@ class SDragonRandom extends LSystem {
           newl = random(drawRange[0], drawRange[1]) * drawLength;
           drawchance.put(i, newl);
         }
-        TexturedCube(tex, 4, -newl, 4);
+        wid = 16 - 3 * widcount;
+        TexturedCube(tex, wid/2, -newl, wid/2);
         translate(0, -newl,0);
       } 
       else if (step == '[') {
         transform.push(getMatrix());
+        widcount++;
       } 
       else if (step == ']') {
         setMatrix((PMatrix)transform.pop());
+        widcount--;
       }
       else if (step != 'X'){
         int tempplace = Character.getNumericValue(step) + 1;
