@@ -126,12 +126,18 @@ class SDZ extends LSystem {
     //drawLength = drawLength * 0.6;
     generations++;
     String newProduction = "";  
-
+    int wcount = 0;
     for (int i = 0; i < prod_.length(); i++){
       String t = prod_.substring(i, i+1);
+      if(t.equals("[")){
+        wcount++;
+      }
+      else if(t.equals("]")){
+        wcount--;
+      }
       if(rule.containsKey(t)){
         if(chanceRule.containsKey(t)){
-          if(random(1) < chanceRule.get(t) + i/25){
+          if(random(1) < chanceRule.get(t) + wcount/25){
             newProduction += rule.get(t);
           }
           else{

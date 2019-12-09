@@ -1,4 +1,4 @@
-class SDragonRandom extends LSystem {
+class OTreeSimple extends LSystem {
   Stack transform = new Stack();
   
   int steps = 0;
@@ -13,7 +13,7 @@ class SDragonRandom extends LSystem {
   
   int widcount = 0;
   
-  float[] wids = {2.0, 1.6, 1.2, .8, .4, .2};
+  float[] wids = {1.0, .6, .4, .3, .2, .1};
   
   //float fChance = .7;
   
@@ -28,16 +28,16 @@ class SDragonRandom extends LSystem {
   
   PImage tex = loadImage("wood.png");
 
-  SDragonRandom() {
-    axiom = "FX";
+  OTreeSimple() {
+    axiom = "X";
     rule = new HashMap<String, String>();
-    rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
+    rule.put("X", "F[1X]F[2X][3X]F[1X][2X]X");
     chanceRule.put("F", .6);
     chanceRule.put("X", .7);
     rule.put("F", "FF");
     startLength = 10.0;
-    theta = radians(72);  
-    theta2 = radians(60);
+    theta = radians(120);  
+    theta2 = radians(30);
     reset();
     //transform.push("hello");
   }
@@ -82,8 +82,8 @@ class SDragonRandom extends LSystem {
         widcount--;
       }
       else if (step == 'X'){
-        drawManyLeaves(10);
-        
+        drawManyLeaves(7);
+        //drawLeaf();
         //continue;
       }
       //recursive step
@@ -117,7 +117,7 @@ class SDragonRandom extends LSystem {
   }
   
   void simulate(int gen) {
-    wids = new float[] {wids[0] * gen, wids[1] * gen, wids[2] * gen, wids[3] * gen, wids[4] * gen, wids[5] * gen};
+    wids = new float[] {wids[0] * gen, wids[1] * gen, wids[2] * gen, wids[3] * gen, wids[4] * gen,wids[5] * gen};
     while (getAge() < gen) {
       production = iterate(production);
     }  
@@ -127,9 +127,11 @@ class SDragonRandom extends LSystem {
     //drawLength = drawLength * 0.6;
     generations++;
     String newProduction = "";  
+
     int wcount = 0;
     for (int i = 0; i < prod_.length(); i++){
       String t = prod_.substring(i, i+1);
+      
       if(t.equals("[")){
         wcount++;
       }

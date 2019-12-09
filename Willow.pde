@@ -1,4 +1,4 @@
-class SDragonRandom extends LSystem {
+class Willow extends LSystem {
   Stack transform = new Stack();
   
   int steps = 0;
@@ -13,7 +13,7 @@ class SDragonRandom extends LSystem {
   
   int widcount = 0;
   
-  float[] wids = {2.0, 1.6, 1.2, .8, .4, .2};
+  float[] wids = {1, .7, .5, .4, .2, .1};
   
   //float fChance = .7;
   
@@ -23,21 +23,21 @@ class SDragonRandom extends LSystem {
   HashMap<Integer, Float> t2chance = new HashMap<Integer, Float>();
   HashMap<Integer, Float> drawchance = new HashMap<Integer, Float>();
 
-
+  HashMap<Integer, Integer> leafdict = new HashMap<Integer, Integer>();
   
   
   PImage tex = loadImage("wood.png");
 
-  SDragonRandom() {
+  Willow() {
     axiom = "FX";
     rule = new HashMap<String, String>();
-    rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
-    chanceRule.put("F", .6);
+    rule.put("X", "[0F5X][1F6X][2F7X]");
+    chanceRule.put("F", .4);
     chanceRule.put("X", .7);
     rule.put("F", "FF");
     startLength = 10.0;
-    theta = radians(72);  
-    theta2 = radians(60);
+    theta = radians(120);  
+    theta2 = radians(45);
     reset();
     //transform.push("hello");
   }
@@ -82,7 +82,13 @@ class SDragonRandom extends LSystem {
         widcount--;
       }
       else if (step == 'X'){
-        drawManyLeaves(10);
+        
+        if(leafdict.containsKey(i)){
+          drawWillowClump(leafdict.get(i));
+        }
+        else{
+          leafdict.put(i, (int)random(.8 * widcount * 6, 1.4 * widcount * 6));
+        }
         
         //continue;
       }
@@ -117,7 +123,7 @@ class SDragonRandom extends LSystem {
   }
   
   void simulate(int gen) {
-    wids = new float[] {wids[0] * gen, wids[1] * gen, wids[2] * gen, wids[3] * gen, wids[4] * gen, wids[5] * gen};
+    wids = new float[] {wids[0] * gen, wids[1] * gen, wids[2] * gen, wids[3] * gen, wids[4] * gen,wids[5] * gen};
     while (getAge() < gen) {
       production = iterate(production);
     }  
@@ -138,7 +144,7 @@ class SDragonRandom extends LSystem {
       }
       if(rule.containsKey(t)){
         if(chanceRule.containsKey(t)){
-          if(random(1) < chanceRule.get(t) + wcount/25){
+          if(random(1) < chanceRule.get(t) + wcount/10){
             newProduction += rule.get(t);
           }
           else{

@@ -8,7 +8,7 @@ int twidth, theight;
 float[][] terrain;
 int scl;
 
-int numtrees = 40;
+int numtrees = 80;
 
 int[] xtree = new int[numtrees];
 int[] ytree = new int[numtrees];
@@ -69,8 +69,8 @@ void setup() {
       SDZ tempr = new SDZ();
       tempr.simulate(3);
       sr[i] = tempr;
-      xtree[i] = (int)random(75, 125);
-      ytree[i] = (int)random(75, 125);
+      xtree[i] = (int)random(50, 150);
+      ytree[i] = (int)random(50, 150);
   }
 
   //print(testdragon.production);
@@ -86,7 +86,6 @@ void setup() {
 
 void draw() {
   background(135,206,235);
-  ambient(255);
   //noStroke();
   //directionalLight(255,255,255,1, 1, 1);
   drawTerrain();
@@ -129,18 +128,6 @@ void draw() {
 //void mouseReleased(){
   
 //}
-
-void keyPressed(){
-  //if(event.key == ){
-    
-  //}
-  println(key);
-  if(key == 'w'){
-    float[] temp = {currentcampos[0], currentcampos[1] + 40,currentcampos[2]};
-    currentcampos = temp;
-    //print(currentcampos);
-  }
-} 
 
 
 void TexturedCube(PImage tex, float x, float y, float z) {
@@ -188,7 +175,7 @@ void TexturedCube(PImage tex, float x, float y, float z) {
 
 void drawLeaf(){
   fill(0,255,100);
-  stroke(255);
+  stroke(50, 70, 100);
   beginShape();
   //texture(loadImage("leaf.jpg"));  
   //textureMode(NORMAL);
