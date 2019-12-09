@@ -1,4 +1,4 @@
-class SDragonRandom extends LSystem {
+class Palm extends LSystem {
   Stack transform = new Stack();
   
   int steps = 0;
@@ -7,7 +7,7 @@ class SDragonRandom extends LSystem {
   float wid = 40.0;
   float theta2;
   
-  float[] drawRange = {.9, 1.1};
+  float[] drawRange = {1, 1};
   float[] thetaRange = {.9, 1.1};
   float[] theta2Range = {.9, 1.1};
   
@@ -28,7 +28,7 @@ class SDragonRandom extends LSystem {
   
   PImage tex = loadImage("wood.png");
 
-  SDragonRandom() {
+  Palm() {
     axiom = "FX";
     rule = new HashMap<String, String>();
     rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
@@ -47,6 +47,7 @@ class SDragonRandom extends LSystem {
     generations = 0;
   }
   void renderAtFinal(){
+    boolean addnum = false;
     for (int i = 0; i < production.length(); i++) {
       char step = production.charAt(i);
       
@@ -66,7 +67,6 @@ class SDragonRandom extends LSystem {
         }
         
         //drawing and translating
-        noStroke();
         TexturedCube(tex, wids[widcount], -newl, wids[widcount]);
         translate(0, -newl,0);
       } 
@@ -80,6 +80,12 @@ class SDragonRandom extends LSystem {
       else if (step == ']') {
         setMatrix((PMatrix)transform.pop());
         widcount--;
+      }
+      else if (step == '(') {
+        addnum = true;
+      }
+      else if (step == ')') {
+        addnum = false;
       }
       else if (step == 'X'){
         drawManyLeaves(10);
@@ -125,24 +131,28 @@ class SDragonRandom extends LSystem {
   String iterate(String prod_) {
     //drawLength = drawLength * 0.6;
     generations++;
+    boolean add = true;
+    int curnum = 0;
     String newProduction = "";  
 
     for (int i = 0; i < prod_.length(); i++){
       String t = prod_.substring(i, i+1);
+      
+      
+      if(t.equals("%")){
+        add = false;
+        curnum = i;
+      }
+      else if(t.equals("]") && curnum == i){
+        add = true;
+      }
+      
       if(rule.containsKey(t)){
-        if(chanceRule.containsKey(t)){
-          if(random(1) < chanceRule.get(t) + i/25){
+          if(add){
             newProduction += rule.get(t);
           }
-          else{
-            newProduction += t;
-          }
-        }
-        else{
-          newProduction += rule.get(t);
-        }
       }
-      else{
+      else if(add){
         newProduction += t;
       }
     }

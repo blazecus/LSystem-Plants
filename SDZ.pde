@@ -1,4 +1,4 @@
-class SDragonRandom extends LSystem {
+class SDZ extends LSystem {
   Stack transform = new Stack();
   
   int steps = 0;
@@ -28,7 +28,7 @@ class SDragonRandom extends LSystem {
   
   PImage tex = loadImage("wood.png");
 
-  SDragonRandom() {
+  SDZ() {
     axiom = "FX";
     rule = new HashMap<String, String>();
     rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
@@ -67,8 +67,8 @@ class SDragonRandom extends LSystem {
         
         //drawing and translating
         noStroke();
-        TexturedCube(tex, wids[widcount], -newl, wids[widcount]);
-        translate(0, -newl,0);
+        TexturedCube(tex, wids[widcount], wids[widcount],newl);
+        translate(0, 0, newl);
       } 
       
       
@@ -105,12 +105,12 @@ class SDragonRandom extends LSystem {
         
         //rotation
         if (tempplace <= 5){
-          rotateY(newt * tempplace);
-          rotateZ(newt2);
+          rotateZ(newt * tempplace);
+          rotateX(newt2);
         }
         else{
-          rotateZ(TWO_PI - newt2);
-          rotateY(TWO_PI - (newt * (tempplace - 5)));
+          rotateX(TWO_PI - newt2);
+          rotateZ(TWO_PI - (newt * (tempplace - 5)));
         }
       }
     }

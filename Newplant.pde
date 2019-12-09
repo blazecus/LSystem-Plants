@@ -1,4 +1,4 @@
-class SDragonRandom extends LSystem {
+class Newplant extends LSystem {
   Stack transform = new Stack();
   
   int steps = 0;
@@ -28,7 +28,7 @@ class SDragonRandom extends LSystem {
   
   PImage tex = loadImage("wood.png");
 
-  SDragonRandom() {
+  Newplant() {
     axiom = "FX";
     rule = new HashMap<String, String>();
     rule.put("X", "[0F5X][1F6X][2F7X][3F8X][4F9X]");
@@ -47,6 +47,7 @@ class SDragonRandom extends LSystem {
     generations = 0;
   }
   void renderAtFinal(){
+    String last = "";
     for (int i = 0; i < production.length(); i++) {
       char step = production.charAt(i);
       
@@ -66,7 +67,6 @@ class SDragonRandom extends LSystem {
         }
         
         //drawing and translating
-        noStroke();
         TexturedCube(tex, wids[widcount], -newl, wids[widcount]);
         translate(0, -newl,0);
       } 

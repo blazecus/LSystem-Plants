@@ -1,8 +1,17 @@
 import java.util.Map;
 import java.util.Stack;
-import queasycam.*;
 
 QueasyCam cam;
+
+int w,h;
+int twidth, theight;
+float[][] terrain;
+int scl;
+
+int numtrees = 40;
+
+int[] xtree = new int[numtrees];
+int[] ytree = new int[numtrees];
 
 PentigreeLSystem ps;
 Koch test;
@@ -14,7 +23,7 @@ Plant3D test3d;
 DragonTree testdragon;
 Cherry cher;
 SDragon s;
-SDragonRandom sr;
+SDZ[] sr = new SDZ[numtrees];
 
 //Stack rendertransform = new Stack();
 //boolean lock = false;
@@ -26,6 +35,7 @@ float[] currentcampos = {0.0, 0.0, -50};
 
 void setup() {
   size(2000, 1500, P3D);
+  
   //ps = new PentigreeLSystem();
   //ps.simulate(3);
   //test = new Koch();
@@ -35,25 +45,34 @@ void setup() {
   //drag = new Dragon();
   //drag.simulate(12);
   cam = new QueasyCam(this);
-  cam.speed = 5;
+  
+  cam.speed = 20;
   cam.sensitivity = .5;
   cam.position = new PVector(-200.0,-300,0.0);
-  pl = new Plant();
-  pl.simulate(5);
-  cher = new Cherry();
-  cher.simulate(4);
   
-  test3d = new Plant3D();
-  test3d.simulate(4);
+  setupTerrain();
   
-  testdragon = new DragonTree();
-  testdragon.simulate(4);
+  //pl = new Plant();
+  //pl.simulate(5);
+  //cher = new Cherry();
+  //cher.simulate(4);
   
-  s = new SDragon();
-  s.simulate(4);
+  //test3d = new Plant3D();
+  //test3d.simulate(4);
   
-  sr = new SDragonRandom();
-  sr.simulate(5);
+  //testdragon = new DragonTree();
+  //testdragon.simulate(4);
+  
+  //s = new SDragon();
+  //s.simulate(4);
+  for(int i = 0; i < numtrees; i++){
+      SDZ tempr = new SDZ();
+      tempr.simulate(3);
+      sr[i] = tempr;
+      xtree[i] = (int)random(75, 125);
+      ytree[i] = (int)random(75, 125);
+  }
+
   //print(testdragon.production);
   //pl.renderAtFinal();
   //spl = new StochasticPlant();
@@ -66,22 +85,32 @@ void setup() {
 }
 
 void draw() {
-  background(0);
+  background(135,206,235);
+  ambient(255);
   //noStroke();
-  //directionalLight(1000, 1000000, 1000, -1, -1, 0);
-  //pushMatrix();
-  //translate(0,500,0);
-  //box(10000.0,4.0,100000.0);
-  //popMatrix();
+  //directionalLight(255,255,255,1, 1, 1);
+  drawTerrain();
   //pointLight(170, 250, 200, 500, 500, 500);
-  fill(255);
   //test3d.renderAtFinal();
   //testdragon.renderAtFinal();
   //cher.renderAtFinal();
-  sr.renderAtFinal();
   //drawManyLeaves(10);
   //pl.renderAtFinal();
+  pushMatrix();
+  translate(width/2, height/2 + 50);
+  rotateX(PI/2);
+  
+  translate(-w/2, -h/2);
+  
+  //rotateX(-PI/2);
+  for(int i = 0; i < numtrees; i++){
 
+    pushMatrix();
+    translate(xtree[i] * scl, ytree[i] * scl, terrain[xtree[i]][ytree[i]]);
+    sr[i].renderAtFinal();
+    popMatrix();
+  }
+  popMatrix();
   //ps.render();
   //test.render();
   //serp.render();
@@ -159,6 +188,7 @@ void TexturedCube(PImage tex, float x, float y, float z) {
 
 void drawLeaf(){
   fill(0,255,100);
+  stroke(255);
   beginShape();
   //texture(loadImage("leaf.jpg"));  
   //textureMode(NORMAL);
@@ -180,4 +210,45 @@ void drawManyLeaves(int numL){
     drawLeaf();
     popMatrix();
   }
+}
+
+void setupTerrain(){
+  w = 10000;
+  h = 10000;
+  scl = 50;
+  twidth = w/scl;
+  theight = h/scl;
+  terrain = new float[twidth][theight];
+  float yoff = 0;
+  for (int i = 0; i < twidth; i++) {
+    float xoff = 0;
+    for (int j = 0; j < theight; j ++) {
+      terrain[i][j] = map(noise(xoff, yoff), 0, 1, -300, 300);
+      xoff += .1;
+    }
+    yoff += .1;  
+  }
+}
+
+void drawTerrain(){
+  noStroke();
+  pushMatrix();
+  translate(width/2, height/2 + 50);
+  rotateX(PI/2);
+  
+  translate(-w/2, -h/2);
+  
+  for (int i = 0; i < twidth-1; i++) {
+    beginShape(TRIANGLE_STRIP);
+    for (int j = 0; j < theight-1; j ++) {
+      fill(0, map(terrain[j][i], -200, 200, 0, 255), 100);
+      vertex(j * scl, i * scl, terrain[j][i]);
+      fill(0, map(terrain[j][i+1], -200, 200, 0, 255), 100);
+      vertex(j * scl, (i+1) * scl, terrain[j][i+1]);
+    }
+    endShape();
+  }
+  translate(width/2, height/2);
+  rotateX(PI/2);
+  popMatrix();
 }
