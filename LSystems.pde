@@ -69,10 +69,10 @@ void draw() {
   background(0);
   //noStroke();
   //directionalLight(1000, 1000000, 1000, -1, -1, 0);
-  pushMatrix();
-  translate(0,500,0);
-  box(10000.0,4.0,100000.0);
-  popMatrix();
+  //pushMatrix();
+  //translate(0,500,0);
+  //box(10000.0,4.0,100000.0);
+  //popMatrix();
   //pointLight(170, 250, 200, 500, 500, 500);
   fill(255);
   //test3d.renderAtFinal();
@@ -158,7 +158,7 @@ void TexturedCube(PImage tex, float x, float y, float z) {
 }
 
 void drawLeaf(){
-  fill(0,random(255),random(100));
+  fill(0,255,100);
   beginShape();
   //texture(loadImage("leaf.jpg"));  
   //textureMode(NORMAL);
