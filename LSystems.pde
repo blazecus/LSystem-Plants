@@ -239,3 +239,46 @@ void drawTerrain(){
   rotateX(PI/2);
   popMatrix();
 }
+
+
+void drawWillowLeaf(){
+  pushMatrix();
+  rotateX(TWO_PI-.7);
+  fill(170,255,170);
+  stroke(50, 70, 100);
+  beginShape();
+  //texture(loadImage("leaf.jpg"));  
+  //textureMode(NORMAL);
+  vertex(-1,0,1.5);
+  vertex(-.5,0,2.5);
+  vertex(0,0,4);
+  vertex(.5,0, 2.5);
+  vertex(1,0,1.5);
+  vertex(0,0,0);
+  endShape();
+  popMatrix();
+}
+void drawWillowClump(int leaves){
+  pushMatrix();
+  translate(0,-5,0);
+
+  
+  for(int i = 0; i < 7; i++){
+    rotateY(pow(i, 4));
+    drawWillowLeaf();
+    rotateY(pow(i, 2));
+    drawWillowLeaf();
+  }
+  for(int i = 0; i < leaves; i++){
+    pushMatrix();
+    rotateY(pow(i, 4));
+    drawWillowLeaf();
+    //rotateY(pow(i, 2));
+    //drawWillowLeaf();
+    rotateY(pow(i, 3));
+    drawWillowLeaf();
+    popMatrix();
+    translate(0,3,0);
+  }
+  popMatrix();
+}
